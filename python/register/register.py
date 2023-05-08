@@ -1,4 +1,4 @@
-## 用装饰器的方式进行注册
+## class 注册器
 import importlib
 import logging
 
