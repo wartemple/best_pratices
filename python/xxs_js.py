@@ -1,4 +1,4 @@
-
+# pip install lxml_html_clean
 from lxml.html.clean import Cleaner
 from lxml import html
 text = '<img style="cienter: auto; display: block; margin-left: auto; margin-right: auto;" src="x" onerror="alert(1)">'
