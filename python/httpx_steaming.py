@@ -1,7 +1,7 @@
 import datetime
 
 import httpx
-
+from httpx_sse import aconnect_sse
 
 async def fetch_data():
     data = {
@@ -28,12 +28,10 @@ async def fetch_data():
         }
     }
     async with httpx.AsyncClient() as client:
-        async with client.stream('POST', 'http://127.0.0.1:18000/api/v1/agent/chat/', json=data, timeout=100) as response:
-            print(datetime.datetime.now())
-
-            async for chunk in response.aiter_bytes():
-                # 处理每个接收到的数据块
-                print(chunk.decode(), end='')  # 这里你可以根据需要处理接收到的数据
+        async with httpx.AsyncClient(app=app) as client:
+            async with aconnect_sse(client, "POST", "http://127.0.0.1:18000/api/v1/agent/chat/", json=data, timeout=100) as event_source:
+                async for sse in event_source.aiter_sse():
+                    print(sse)
 
 # 运行异步函数
 async def main():
